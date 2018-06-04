@@ -1,19 +1,25 @@
 <template>
-  <form id="quiz" @submit.prevent="handleSubmit">
-    <div v-for="(question, qkey) in questions" :key="qkey">
-      <h3 class="question">{{ question.question }}</h3>
-      <div class="answers">
-        <label v-for="(answer, akey) in question.answers" :key="akey">
-          <input type="radio" v-model="answers[question.id]" :name="question.id" :value="akey">
-          {{ String.fromCharCode(97 + akey) }} : {{ answer }}
-        </label>
+  <div id="quiz" >
+    <ul v-if="errors.length" class="errors">
+      <li v-for="error in errors">{{ error }}</li>
+    </ul>
+
+    <form @submit.prevent="handleSubmit">
+      <div v-for="(question, qkey) in questions" :key="qkey">
+        <h3 class="question">{{ question.question }}</h3>
+        <div class="answers">
+          <label v-for="(answer, akey) in question.answers" :key="akey">
+            <input type="radio" v-model="answers[question.id]" :name="question.id" :value="akey">
+            {{ String.fromCharCode(97 + akey) }} : {{ answer }}
+          </label>
+        </div>
       </div>
-    </div>
-    <div class="foot">
-      <input type="text" name="user" placeholder="Insert your name" v-model="user">
-      <button>Submit Quiz</button>
-    </div>
-  </form>
+      <div class="foot">
+        <input type="text" name="user" placeholder="Insert your name" v-model="user">
+        <button>Submit Quiz</button>
+      </div>
+    </form>
+  </div>
 </template>
 
 <script>
@@ -30,21 +36,29 @@ export default {
       questions: [],
       user: null,
       answers: {},
+      errors: [],
     };
   },
   methods: {
-    handleSubmit: function() {
-      // Validation here
+    handleSubmit: function handleSubmit () {
+      this.errors = [];
+
+      if (!this.user)
+        this.errors.push("User must be filled in!");
+
+      if (this.questions.length !== Object.keys(this.answers).length)
+        this.errors.push("Please choose an answer of all questions!");
+
+      if (this.errors.length > 0) return;
+
       const self = this;
       Vue.axios
         .post(`${process.env.ROOT_API}quiz/answer`, {
             user: self.user,
-            answers: self.answers
+            answers: self.answers,
         })
-        .then((response) => {
-
+        .then(() => {
           this.$emit('submitted');
-
         });
     },
   },
@@ -60,6 +74,14 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.errors {
+      margin: 0;
+    list-style: none;
+    border: 2px solid #f64a4a;
+    border-radius: 6px;
+    padding: 10px 20px;
+}
+
 .foot {
   display: flex;
   margin-top: 20px;

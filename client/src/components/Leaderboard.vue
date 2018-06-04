@@ -1,9 +1,9 @@
 <template>
   <div class="leaderboard">
     <h3>Leaderboard</h3>
-    <ul v-for="leader in leaderboard">
-      <li>{{ leader.user }} - {{ leader.score }} ({{ leader.createdAt }})</li>
-    </ul>
+    <ol>
+      <li v-for="leader in leaderboard">{{ leader.user }} - {{ leader.score }} ({{ leader.createdAt }})</li>
+    </ol>
   </div>
 </template>
 
@@ -11,6 +11,7 @@
 import Vue from 'vue';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
+import Moment from 'moment';
 
 Vue.use(VueAxios, axios);
 
@@ -25,7 +26,10 @@ export default {
     Vue.axios
       .get(`${process.env.ROOT_API}quiz/leaderboard`)
       .then((response) => {
-        this.leaderboard = response.data;
+        this.leaderboard = response.data.map(element => {
+          element.createdAt = Moment.utc(element.createdAt).fromNow();
+          return element;
+        });
       });
   },
 };
