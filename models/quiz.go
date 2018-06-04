@@ -5,8 +5,6 @@ import (
 	"time"
 )
 
-// TODO: external and internal contracts should be split
-
 // QuizLeaderboard Quiz leaderboard element
 type QuizLeaderboard struct {
 	User      string    `json:"user"`
@@ -47,6 +45,7 @@ var quiz = Quiz{
 				"1930s",
 				"1950s",
 			},
+			answerIndex: 1,
 		},
 		QuizQuestion{
 			ID:       "1a8ebfa7-b482-4876-955d-a72f76d11ce5",
@@ -57,6 +56,7 @@ var quiz = Quiz{
 				"Record",
 				"File",
 			},
+			answerIndex: 1,
 		},
 		QuizQuestion{
 			ID:       "bdfec3d2-6432-4a4e-8044-d20207992684",
@@ -67,6 +67,7 @@ var quiz = Quiz{
 				"Operating System", // Answer
 				"Optical Sensor",
 			},
+			answerIndex: 2,
 		},
 		QuizQuestion{
 			ID:       "cb065339-ba58-461c-9736-abf777ebb43f",
@@ -77,6 +78,7 @@ var quiz = Quiz{
 				"1870s",
 				"1900s", // Answer
 			},
+			answerIndex: 3,
 		},
 	},
 }
@@ -86,7 +88,7 @@ type byScore []QuizLeaderboard
 
 func (a byScore) Len() int           { return len(a) }
 func (a byScore) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
-func (a byScore) Less(i, j int) bool { return a[i].Score < a[j].Score }
+func (a byScore) Less(i, j int) bool { return a[i].Score > a[j].Score }
 
 // GetQuiz Get quiz data
 func GetQuiz() Quiz {
@@ -95,8 +97,14 @@ func GetQuiz() Quiz {
 
 // SaveUserAnswer Save user answers
 func SaveUserAnswer(sub QuizUserSubmission) {
-	// TODO: calculate score
-	var score = 0
+	// Calculate score
+	var score, ptPerAnswer = 0, (100 / len(quiz.Questions))
+
+	for _, element := range quiz.Questions {
+		if sub.Answers[element.ID] == element.answerIndex {
+			score += ptPerAnswer
+		}
+	}
 
 	quizAnswers[sub.User] = QuizUserSubmission{
 		User:    sub.User,
@@ -115,6 +123,10 @@ func SaveUserAnswer(sub QuizUserSubmission) {
 
 // GetQuizLeaderboard Get quiz leader board
 func GetQuizLeaderboard() []QuizLeaderboard {
+	if len(quizLeaderboard) > 10 {
+		return quizLeaderboard[:10]
+	}
+
 	return quizLeaderboard
 }
 

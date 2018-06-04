@@ -1,9 +1,13 @@
 <template>
   <div class="leaderboard">
-    <h3>Leaderboard</h3>
+    <h2>Leaderboard</h2>
     <ol>
-      <li v-for="leader in leaderboard">{{ leader.user }} - {{ leader.score }} ({{ leader.createdAt }})</li>
+      <li v-for="leader in leaderboard">
+        <div v-if="leader !== null"><span class="user">{{ leader.user }}</span> - {{ leader.score }}pts <time :datetime="leader.createdAt">{{ leader.createdAtHuman }}</time></div>
+      </li>
     </ol>
+
+    <button v-on:click="goBack">Submit Another!</button>
   </div>
 </template>
 
@@ -22,14 +26,25 @@ export default {
       leaderboard: [],
     };
   },
+  methods: {
+    goBack: function() {
+      this.$emit('goBack');
+    }
+  },
   mounted() {
     Vue.axios
       .get(`${process.env.ROOT_API}quiz/leaderboard`)
       .then((response) => {
-        this.leaderboard = response.data.map(element => {
-          element.createdAt = Moment.utc(element.createdAt).fromNow();
+        let leaderboard = response.data.map(element => {
+          element.createdAtHuman = Moment.utc(element.createdAt).fromNow();
           return element;
         });
+
+        for (var i = leaderboard.length; i < 10; i++) {
+          leaderboard.push(null);
+        }
+
+        this.leaderboard = leaderboard;
       });
   },
 };
@@ -37,5 +52,20 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.user {
+  font-weight: bold;
+}
 
+ol {
+  position: relative;
+}
+
+li time {
+  font-size: 14px;
+  margin-left: 12px;
+}
+
+.leaderboard {
+  font-size: 20px;
+}
 </style>

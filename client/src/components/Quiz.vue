@@ -30,7 +30,7 @@ import VueAxios from 'vue-axios';
 Vue.use(VueAxios, axios);
 
 export default {
-  name: 'HelloWorld',
+  name: 'Quiz',
   data() {
     return {
       questions: [],
@@ -54,7 +54,7 @@ export default {
       const self = this;
       Vue.axios
         .post(`${process.env.ROOT_API}quiz/answer`, {
-            user: self.user,
+            user: self.user.trim().split(" ").join("_"),
             answers: self.answers,
         })
         .then(() => {
@@ -75,52 +75,19 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .errors {
-      margin: 0;
-    list-style: none;
-    border: 2px solid #f64a4a;
-    border-radius: 6px;
-    padding: 10px 20px;
+  margin: 0;
+  list-style: none;
+  border: 2px solid #f64a4a;
+  border-radius: 6px;
+  padding: 10px 20px;
 }
 
 .foot {
   display: flex;
-  margin-top: 20px;
 }
 
 .foot > *:not(:first-child) {
   margin-left: 10px;
-}
-
-button, input[type="text"] {
-    background-color: transparent;
-    border: 2px solid #357edd;
-    color: #357edd;
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 600;
-    line-height: 1;
-    border-radius: 0.5rem;
-    font-size: 0.8em;
-    min-height: 2rem;
-    flex-grow: 1;
-    text-overflow: ellipsis;
-    padding-left: 6px;
-    padding-right: 6px;
-    outline: none;
-}
-
-button {
-  cursor: pointer;
-    background-color: #357edd;
-    color: white;
-}
-
-button:hover {
-  opacity: 0.8;
-}
-
-::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-    color: #357edd;
-    opacity: 1; /* Firefox */
 }
 
 .answers {
