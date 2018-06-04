@@ -14,17 +14,10 @@ type QuizLeaderboard struct {
 	CreatedAt time.Time `json:"createdAt"`
 }
 
-// QuizAnswer Quiz submitted answer
-type QuizAnswer struct {
-	QuestionID  int       `json:"questionId"`
-	AnswerIndex int       `json:"answerIndex"`
-	AnsweredAt  time.Time `json:"answeredAt"`
-}
-
 // QuizUserSubmission Quiz user submission
 type QuizUserSubmission struct {
-	User    string       `json:"user"`
-	Answers []QuizAnswer `json:"answers"`
+	User    string         `json:"user"`
+	Answers map[string]int `json:"answers"`
 	score   int
 }
 

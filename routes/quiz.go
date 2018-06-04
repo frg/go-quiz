@@ -12,7 +12,7 @@ func RegisterQuizRoutes(server *echo.Echo) *echo.Echo {
 	server.GET("/quiz", handlers.GetQuiz())
 
 	// POST quiz answers for user
-	server.POST("/quiz/answer/:user", handlers.SaveUserAnswer())
+	server.POST("/quiz/answer", handlers.SaveUserAnswer())
 
 	// GET quiz leaderboard
 	server.GET("/quiz/leaderboard", handlers.GetQuizLeaderboard())

@@ -4,13 +4,13 @@
       <h3 class="question">{{ question.question }}</h3>
       <div class="answers">
         <label v-for="(answer, akey) in question.answers" :key="akey">
-          <input type="radio" v-model="answers[qkey]" :name="question.id" :value="akey">
+          <input type="radio" v-model="answers[question.id]" :name="question.id" :value="akey">
           {{ String.fromCharCode(97 + akey) }} : {{ answer }}
         </label>
       </div>
     </div>
     <div class="foot">
-      <input type="text" name="user" placeholder="Insert your name" :model="user">
+      <input type="text" name="user" placeholder="Insert your name" v-model="user">
       <button>Submit Quiz</button>
     </div>
   </form>
@@ -29,12 +29,23 @@ export default {
     return {
       questions: [],
       user: null,
-      answers: [],
+      answers: {},
     };
   },
   methods: {
-    handleSubmit: () => {
-      debugger;
+    handleSubmit: function() {
+      // Validation here
+      const self = this;
+      Vue.axios
+        .post(`${process.env.ROOT_API}quiz/answer`, {
+            user: self.user,
+            answers: self.answers
+        })
+        .then((response) => {
+
+          this.$emit('submitted');
+
+        });
     },
   },
   mounted() {

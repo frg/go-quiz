@@ -1,18 +1,31 @@
 <template>
   <div id="app">
     <h1>This Glorious Go-Quiz!</h1>
-    <Quiz/>
+    <Quiz v-if="!isSubmitted"  @submitted="submitted" />
+    <Leaderboard v-if="isSubmitted" />
   </div>
 </template>
 
 <script>
 import Quiz from './components/Quiz';
+import Leaderboard from './components/Leaderboard';
 
 export default {
   name: 'App',
   components: {
     Quiz,
+    Leaderboard,
   },
+  data: function() {
+    return {
+      isSubmitted: false
+    }
+  },
+  methods: {
+    submitted() {
+      this.isSubmitted = true;
+    }
+  }
 };
 </script>
 

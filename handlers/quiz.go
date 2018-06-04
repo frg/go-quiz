@@ -32,7 +32,7 @@ func SaveUserAnswer() echo.HandlerFunc {
 // GetQuizLeaderboard Get quiz leader board
 func GetQuizLeaderboard() echo.HandlerFunc {
 	return func(context echo.Context) error {
-		return context.JSON(http.StatusOK, "tasks")
+		return context.JSON(http.StatusOK, models.GetQuizLeaderboard())
 	}
 }
 
