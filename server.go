@@ -3,7 +3,6 @@ package main
 import (
 	"quiz/routes"
 
-	"github.com/hb-go/echo-web/module/cache"
 	"github.com/labstack/echo"
 	mw "github.com/labstack/echo/middleware"
 )
@@ -20,9 +19,6 @@ func main() {
 	server.Use(mw.Logger())
 	server.Use(mw.Recover())
 	server.Use(mw.CORS())
-
-	// Cache
-	server.Use(cache.Cache())
 
 	// Routes
 	server.File("/", "client/dist/index.html")

@@ -1,7 +1,9 @@
 package models
 
 import (
+	"fmt"
 	"sort"
+	"strconv"
 	"time"
 )
 
@@ -131,6 +133,47 @@ func GetQuizLeaderboard() []QuizLeaderboard {
 }
 
 // GetRelativeQuizLeaderboard Get quiz user relative stat
-func GetRelativeQuizLeaderboard(user string) string {
-	return "A relative message"
+func GetRelativeQuizLeaderboard(user string) []string {
+	var messages = []string{}
+
+	if len(messages) > 10 {
+		messages = append(messages, "There has been "+strconv.Itoa(len(messages))+" quizes completed!")
+	}
+
+	// TODO: Clean this up!
+	var userTopScore, scores = 0, []QuizLeaderboard{}
+	for k, v := range quizAnswers {
+		// Find user's TOP score
+		if k == user && v.score > userTopScore {
+			userTopScore = v.score
+		}
+
+		// Convert into array QuizLeaderboard format
+		scores = append(scores, QuizLeaderboard{
+			Score: v.score,
+			User:  v.User,
+		})
+	}
+
+	// Sort by score
+	sort.Sort(byScore(scores))
+
+	// Find the index at which the Score is less than top of user
+	var indexOfLessPts = 1
+	for index, element := range scores {
+		if element.Score < userTopScore {
+			// This is the index that the User is better than!
+			indexOfLessPts = index + 1
+			break
+		}
+	}
+
+	fmt.Println(strconv.Itoa(len(scores)))
+	fmt.Println(strconv.Itoa(indexOfLessPts))
+	fmt.Println(strconv.Itoa((indexOfLessPts / len(scores)) * 100))
+
+	var scoreCount = len(scores)
+	messages = append(messages, "The user is "+strconv.Itoa((indexOfLessPts/scoreCount)*100)+"% better than all users!")
+
+	return messages
 }

@@ -58,7 +58,7 @@ export default {
             answers: self.answers,
         })
         .then(() => {
-          this.$emit('submitted');
+          this.$emit('goToNext', this.user);
         });
     },
   },

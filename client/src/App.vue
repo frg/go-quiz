@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <h1>This Glorious Go-Quiz!</h1>
-    <Quiz v-if="step == 1" @submitted="goTo(2)" />
-    <Leaderboard v-if="step == 2" @goBack="goTo(1)" />
+    <Quiz v-if="step == 1" @goToNext="goToNext" v-model="user"/>
+    <Leaderboard v-if="step == 2" :user="user" @goBack="goBack" />
   </div>
 </template>
 
@@ -18,12 +18,17 @@ export default {
   },
   data: function() {
     return {
-      step: 1
+      step: 1,
+      user: null
     }
   },
   methods: {
-    goTo(step) {
-      this.step = step;
+    goToNext(user) {
+      this.step++;
+      this.user = user;
+    },
+    goBack() {
+      this.step--;
     }
   }
 };
