@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <h1>This Glorious Go-Quiz!</h1>
     <Quiz/>
   </div>
 </template>
@@ -16,6 +17,19 @@ export default {
 </script>
 
 <style>
+body {
+    margin:40px auto;
+    max-width:650px;
+    line-height:1.6;
+    font-size:18px;
+    color:#444;
+    padding:0 10px
+}
+
+h1, h2, h3 {
+    line-height:1.2
+}
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

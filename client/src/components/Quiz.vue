@@ -1,7 +1,7 @@
 <template>
-  <div id="quiz">
+  <form id="quiz" @submit.prevent="handleSubmit">
     <div v-for="(question, qkey) in questions" :key="qkey">
-      <div class="question">{{ question.question }}</div>
+      <h3 class="question">{{ question.question }}</h3>
       <div class="answers">
         <label v-for="(answer, akey) in question.answers" :key="akey">
           <input type="radio" name="question0" value="a">
@@ -9,9 +9,11 @@
         </label>
       </div>
     </div>
-    <input type="text" placeholder="Insert your name">
-    <button>Submit Quiz</button>
-  </div>
+    <div class="foot">
+      <input type="text" placeholder="Insert your name">
+      <button>Submit Quiz</button>
+    </div>
+  </form>
 </template>
 
 <script>
@@ -29,9 +31,9 @@ export default {
     };
   },
   methods() {
-    // submitQuiz: function() {
+    // handleSubmit: function(event) {
 
-    // }
+    // },
   },
   mounted() {
     Vue.axios
@@ -45,12 +47,51 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.question {
-  font-weight: 600;
+.foot {
+  display: flex;
+  margin-top: 20px;
+}
+
+.foot > *:not(:first-child) {
+  margin-left: 10px;
+}
+
+button, input[type="text"] {
+    background-color: transparent;
+    border: 2px solid #357edd;
+    color: #357edd;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+    line-height: 1;
+    border-radius: 0.5rem;
+    font-size: 0.8em;
+    min-height: 2rem;
+    flex-grow: 1;
+    text-overflow: ellipsis;
+    padding-left: 6px;
+    padding-right: 6px;
+    outline: none;
+}
+
+button {
+  cursor: pointer;
+    background-color: #357edd;
+    color: white;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #357edd;
+    opacity: 1; /* Firefox */
 }
 
 .answers {
+  display: inline-block;
   margin-bottom: 20px;
+  text-align: left;
 }
 
 .answers label {

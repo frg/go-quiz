@@ -25,7 +25,7 @@ type QuizAnswer struct {
 type QuizUserSubmission struct {
 	User    string       `json:"user"`
 	Answers []QuizAnswer `json:"answers"`
-	Score   int
+	score   int
 }
 
 // QuizQuestion A quiz question w/ answers
@@ -33,7 +33,7 @@ type QuizQuestion struct {
 	ID          string   `json:"id"`
 	Question    string   `json:"question"`
 	Answers     []string `json:"answers"`
-	AnswerIndex int
+	answerIndex int
 }
 
 // Quiz A list of quiz questions
@@ -103,10 +103,17 @@ func GetQuiz() Quiz {
 // SaveUserAnswer Save user answers
 func SaveUserAnswer(sub QuizUserSubmission) {
 	// TODO: calculate score
-	quizAnswers[sub.User] = sub
+	var score = 0
+
+	quizAnswers[sub.User] = QuizUserSubmission{
+		User:    sub.User,
+		Answers: sub.Answers,
+		score:   score,
+	}
+
 	quizLeaderboard = append(quizLeaderboard, QuizLeaderboard{
 		User:      sub.User,
-		Score:     0,
+		Score:     score,
 		CreatedAt: time.Now().UTC(),
 	})
 
