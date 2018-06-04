@@ -89,7 +89,6 @@ var quiz = Quiz{
 }
 
 // Sorting
-
 type byScore []QuizLeaderboard
 
 func (a byScore) Len() int           { return len(a) }

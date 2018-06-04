@@ -3,6 +3,7 @@
 ## Gotchas
 
 * <https://golang.org/doc/code.html#GOPATH>
+* <https://stackoverflow.com/questions/32877525/please-explain-and-pointers-in-golang>
 
 ## Sources
 
