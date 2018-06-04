@@ -37,7 +37,7 @@ func GetQuizLeaderboard() echo.HandlerFunc {
 }
 
 // GetRelativeQuizLeaderboard Get quiz user relative stat
-func GetRelativeQuizLeaderboard(user string) echo.HandlerFunc {
+func GetRelativeQuizLeaderboard() echo.HandlerFunc {
 	return func(context echo.Context) error {
 		var user = context.Param("user")
 
