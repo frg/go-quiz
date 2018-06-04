@@ -19,6 +19,7 @@ func main() {
 	// Middleware
 	server.Use(mw.Logger())
 	server.Use(mw.Recover())
+	server.Use(mw.CORS())
 
 	// Cache
 	server.Use(cache.Cache())
