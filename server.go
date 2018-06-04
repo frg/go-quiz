@@ -24,7 +24,8 @@ func main() {
 	server.Use(cache.Cache())
 
 	// Routes
-	server.File("/", "client/index.html")
+	server.File("/", "client/dist/index.html")
+	server.Static("/", "client/dist/")
 	routes.RegisterQuizRoutes(server)
 
 	server.Start(":8000")
