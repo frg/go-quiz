@@ -4,7 +4,7 @@
 
 ### Development
 
-1. Make sure that all golang packages are installed (might need to investigate golang package managment)
+1. Run `glide install`
 2. Run `go build server.go`
 3. `cd ./client`
 4. `npm i`
@@ -12,7 +12,6 @@
 
 ## Todo
 
-* Investigate dependency management (<https://github.com/Masterminds/glide)>
 * Question API pagination
 * Cache
 * Tests
