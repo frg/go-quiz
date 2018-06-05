@@ -7,7 +7,7 @@
       </li>
     </ol>
 
-    <ul>
+    <ul class="facts">
       <li v-for="fact in facts">{{ fact }}</li>
     </ul>
 
@@ -72,7 +72,13 @@ export default {
   font-weight: bold;
 }
 
-ol {
+.facts {
+  list-style: none;
+  padding: 0;
+  font-size: 14px;
+}
+
+ol, li {
   position: relative;
 }
 

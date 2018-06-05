@@ -1,7 +1,6 @@
 package models
 
 import (
-	"fmt"
 	"sort"
 	"strconv"
 	"time"
@@ -155,25 +154,21 @@ func GetRelativeQuizLeaderboard(user string) []string {
 		})
 	}
 
-	// Sort by score
-	sort.Sort(byScore(scores))
+	if len(scores) > 1 {
+		// Sort by score
+		sort.Sort(byScore(scores))
 
-	// Find the index at which the Score is less than top of user
-	var indexOfLessPts = 1
-	for index, element := range scores {
-		if element.Score < userTopScore {
-			// This is the index that the User is better than!
-			indexOfLessPts = index + 1
-			break
+		// Find the index at which the Score is less than top of user
+		var betterThan float64
+		for index, element := range scores {
+			if element.Score < userTopScore {
+				betterThan = ((float64((len(scores) - index)) / float64(len(scores))) * float64(100))
+				break
+			}
 		}
+
+		messages = append(messages, "The user scored better than "+strconv.FormatFloat(betterThan, 'f', 2, 64)+"% all users!")
 	}
-
-	fmt.Println(strconv.Itoa(len(scores)))
-	fmt.Println(strconv.Itoa(indexOfLessPts))
-	fmt.Println(strconv.Itoa((indexOfLessPts / len(scores)) * 100))
-
-	var scoreCount = len(scores)
-	messages = append(messages, "The user is "+strconv.Itoa((indexOfLessPts/scoreCount)*100)+"% better than all users!")
 
 	return messages
 }

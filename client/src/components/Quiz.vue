@@ -43,6 +43,9 @@ export default {
     handleSubmit: function handleSubmit () {
       this.errors = [];
 
+      // Sanitize the user
+      this.user = this.user.trim().split(" ").join("_").replace(/[^a-zA-Z0-9-_]/g, '')
+
       if (!this.user)
         this.errors.push("User must be filled in!");
 
@@ -54,7 +57,7 @@ export default {
       const self = this;
       Vue.axios
         .post(`${process.env.ROOT_API}quiz/answer`, {
-            user: self.user.trim().split(" ").join("_"),
+            user: this.user,
             answers: self.answers,
         })
         .then(() => {
