@@ -12,6 +12,7 @@
 
 ## Todo
 
+* Investigate dependency management (https://github.com/golang/dep)
 * Question API pagination
 * Cache
 * Tests
