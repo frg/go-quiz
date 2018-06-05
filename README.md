@@ -12,7 +12,7 @@
 
 ## Todo
 
-* Investigate dependency management (https://github.com/golang/dep)
+* Investigate dependency management (<https://github.com/Masterminds/glide)>
 * Question API pagination
 * Cache
 * Tests
