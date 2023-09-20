@@ -14,7 +14,7 @@
 
 ## Todo
 
-* Question API pagination
+* API pagination
 * Cache
 * Tests
 * Fancy UI
